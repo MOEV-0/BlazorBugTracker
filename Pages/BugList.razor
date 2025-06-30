@@ -1,0 +1,121 @@
+@page "/buglist"
+@using BlazorBugTracker.Models
+@inject HttpClient Http
+
+<h3 class="mb-4">🐞 Bug Tracker</h3>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <EditForm Model="@newBug" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Title:</label>
+                    <InputText @bind-Value="newBug.Title" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Assigned To:</label>
+                    <InputText @bind-Value="newBug.AssignedTo" class="form-control" />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description:</label>
+                <InputText @bind-Value="newBug.Description" class="form-control" />
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Priority:</label>
+                    <InputSelect @bind-Value="newBug.Priority" class="form-select">
+                        @foreach (var priority in Enum.GetValues<BugPriority>())
+                        {
+                            <option value="@priority">@priority</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Status:</label>
+                    <InputSelect @bind-Value="newBug.Status" class="form-select">
+                        @foreach (var status in Enum.GetValues<BugStatus>())
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Created At:</label>
+                    <InputDate @bind-Value="newBug.CreatedAt" class="form-control" />
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">➕ Submit Bug</button>
+        </EditForm>
+    </div>
+</div>
+
+<h4>📝 Existing Bugs</h4>
+@if (bugs is null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!bugs.Any())
+{
+    <p class="text-muted">No bugs reported.</p>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var bug in bugs)
+        {
+            <div class="list-group-item">
+                <h5 class="mb-1">@bug.Title</h5>
+                <p class="mb-1">@bug.Description</p>
+                <small>
+                    <strong>Assigned To:</strong> @bug.AssignedTo |
+                    <strong>Priority:</strong> @bug.Priority |
+                    <strong>Status:</strong> @bug.Status |
+                    <strong>Date:</strong> @bug.CreatedAt.ToShortDateString()
+                </small>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<Bug> bugs = new();
+    private Bug newBug = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadBugs();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var response = await Http.PostAsJsonAsync("api/bugs", newBug);
+        if (response.IsSuccessStatusCode)
+        {
+            newBug = new(); // Clear form
+            await LoadBugs(); // Refresh list
+        }
+        else
+        {
+            // Optional: Show error message
+        }
+    }
+
+    private async Task LoadBugs()
+    {
+        try
+        {
+            bugs = await Http.GetFromJsonAsync<List<Bug>>("api/bugs");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to load bugs: {ex.Message}");
+        }
+    }
+}

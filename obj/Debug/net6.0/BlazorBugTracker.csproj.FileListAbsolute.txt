@@ -1,0 +1,7 @@
+C:\Users\varac\Desktop\Github\blazor-bug-tracker\BlazorBugTracker\obj\Debug\net6.0\BlazorBugTracker.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\varac\Desktop\Github\blazor-bug-tracker\BlazorBugTracker\obj\Debug\net6.0\BlazorBugTracker.AssemblyInfoInputs.cache
+C:\Users\varac\Desktop\Github\blazor-bug-tracker\BlazorBugTracker\obj\Debug\net6.0\BlazorBugTracker.AssemblyInfo.cs
+C:\Users\varac\Desktop\Github\blazor-bug-tracker\BlazorBugTracker\obj\Debug\net6.0\BlazorBugTracker.csproj.CoreCompileInputs.cache
+C:\Users\varac\Desktop\Github\blazor-bug-tracker\BlazorBugTracker\obj\Debug\net6.0\BlazorBugTracker.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\varac\Desktop\Github\blazor-bug-tracker\BlazorBugTracker\obj\Debug\net6.0\BlazorBugTracker.RazorAssemblyInfo.cache
+C:\Users\varac\Desktop\Github\blazor-bug-tracker\BlazorBugTracker\obj\Debug\net6.0\BlazorBugTracker.RazorAssemblyInfo.cs
